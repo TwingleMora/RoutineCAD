@@ -1,0 +1,14 @@
+self.setStyleSheet("background-color: rgb(255, 255, 255);")
+ self.progressBar.setStyleSheet(
+    "QProgressBar { border: 2px solid #000; border-radius: 5px; } QProgressBar::chunk { background-color: #a61133; }")
+    { background-color: #2e56ab; }
+
+     self.progress_bar.setStyleSheet("""
+      QProgressBar {
+        border: 4px solid white;
+        border-radius: 20px;
+    }
+     QProgressBar::grey {
+background-color: blue;
+        }
+                                    """)

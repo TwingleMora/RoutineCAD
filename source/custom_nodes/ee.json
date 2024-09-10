@@ -1,0 +1,60 @@
+{
+    "nodes": [
+        {
+            "type": "Custom_Node",
+            "x": 4734,
+            "y": 5029,
+            "id": 0,
+            "uuid": "b0c9bcaa-1bcd-4673-bab4-efc06a21d417",
+            "title_text": "pointX",
+            "description_text": "custom",
+            "text": "",
+            "current": "5",
+            "target": "11"
+        },
+        {
+            "type": "Custom_Node",
+            "x": 5261,
+            "y": 5010,
+            "id": 1,
+            "uuid": "f60ce2ce-a20d-4811-bf30-da5e21a59323",
+            "title_text": "pointZ",
+            "description_text": "custom",
+            "text": "",
+            "current": "3",
+            "target": "10"
+        },
+        {
+            "type": "Custom_Node",
+            "x": 5003,
+            "y": 4903,
+            "id": 2,
+            "uuid": "f11eab75-b97f-4b75-9cbe-8ada53eed6e9",
+            "title_text": "Custom Node",
+            "description_text": "Point",
+            "text": "your point",
+            "current": "5",
+            "target": "20"
+        }
+    ],
+    "connections": [
+        {
+            "start_id": "b0c9bcaa-1bcd-4673-bab4-efc06a21d417",
+            "end_id": "f11eab75-b97f-4b75-9cbe-8ada53eed6e9",
+            "start_pin": "O1",
+            "end_pin": "I1"
+        },
+        {
+            "start_id": "f60ce2ce-a20d-4811-bf30-da5e21a59323",
+            "end_id": "b0c9bcaa-1bcd-4673-bab4-efc06a21d417",
+            "start_pin": "O2",
+            "end_pin": "I2"
+        },
+        {
+            "start_id": "f11eab75-b97f-4b75-9cbe-8ada53eed6e9",
+            "end_id": "f60ce2ce-a20d-4811-bf30-da5e21a59323",
+            "start_pin": "O3",
+            "end_pin": "I3"
+        }
+    ]
+}

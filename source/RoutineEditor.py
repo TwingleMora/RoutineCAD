@@ -8,6 +8,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QLabel, QPushButton, QHBoxLayout, QMessageBox
 from shiboken6 import Shiboken
 
+from source.config import CONFIG
 from source.custom_widgets.CustomRoutineButton import CustomRoutineButton
 from source.custom_widgets.ToggleButtonX import ToggleButtonX
 from source.custom_widgets.TripleButtonX import TripleButtonX
@@ -207,7 +208,7 @@ class RoutineEditor(QtWidgets.QMainWindow):
         self.add_point = QPushButton("Add Point")
         self.finish_routine = CustomRoutineButton("Finish Routine")
         self.create_apply = QPushButton("")
-        self.MissedMadeBtn = ToggleButtonX("Missed", "Made", self)
+        self.MissedMadeBtn = TripleButtonX("Missed", "Made", "None", self)
         self.TerminateBtn = QtWidgets.QPushButton("Terminate")
         self.TerMFinshedBtn = TripleButtonX("Terminated", "Finished", "None", self)
         self.CancelButton = QPushButton("Cancel")
@@ -401,20 +402,43 @@ class RoutineEditor(QtWidgets.QMainWindow):
     def clicked_create_modifiy_func(self):
         #### IMPORTANT #####
         routine = self.routine
-
+        routine.active_state = True #unless:
+        routine.finished = False #unless:
         if self.editorMode == NodeEditorMode.Edit:
             routine.routine_name = self.Routine_Name_Edit.text()
-            save_node_iteration = True # always save node iteration
+            save_node_iteration = True  # always save node iteration
             #routine.finished = self.routine.finished
             if self.MissedMadeBtn.isVisible():
-                self.routine.finished = True
-                if self.MissedMadeBtn.IsChecked() == True:
-                    save_node_iteration = True
+                print("Missed Made Is Visible")
+                print("Missed Made Value is "+ str(self.MissedMadeBtn.Value()))
+                if self.MissedMadeBtn.Value() != 1:
+                    print("How Comeeee")
+                    print("MisseddMadeNone Button is "+ str(self.MissedMadeBtn.Value()))
+                    if self.MissedMadeBtn.Value() == 0:
+                        routine.iterations = self.routine.iterations + 1
+                        #25% * 10^(iteration/100)
+                        routine.EXP += CONFIG.calculate_exp(
+                            iterations=self.routine.iterations,
+                            weight=self.routine.weight,
+                            timeleft=CONFIG.calculated_time(self.routine.weight) * 0.25
+                        )
+                    else:
+                        print("Missed Made Button is "+ str(self.MissedMadeBtn.Value()))
+                        no_of_missed_times = CONFIG.calculate_missed_iteration(routine)
+                        if self.routine.iterations - no_of_missed_times > 0:
+                            routine.iterations = self.routine.iterations - no_of_missed_times
+                        elif self.routine.iterations > 0:
+                            routine.iterations = 0
+
+                    routine.finished = True #after calculating missed iterations
+
             if self.TerMFinshedBtn.isVisible():
                 if self.TerMFinshedBtn.Value() == -1:
                     print("Termination")
                     current = datetime.datetime.now()
                     routine.end_time = current - datetime.timedelta(hours=5)
+
+
                 elif self.TerMFinshedBtn.Value() == 0:
                     if self.routine.active_state:
                         # self.routine.start_time = datetime.datetime.now()
@@ -424,7 +448,12 @@ class RoutineEditor(QtWidgets.QMainWindow):
                         routine.finished = True
                         save_node_iteration = True
                         delta_time = (self.routine.end_time - datetime.datetime.now())
-                        routine.EXP = delta_time.total_seconds() / 3600
+                        routine.EXP += CONFIG.calculate_exp(
+                            iterations=self.routine.iterations,
+                            weight=self.routine.weight,
+                            timeleft=self.routine.end_time - datetime.datetime.now()
+                        )
+
                         self.update_widgets()
                         self.clicked_on_finished = True
                         self.finish_routine.setEnabled(False)
@@ -432,6 +461,7 @@ class RoutineEditor(QtWidgets.QMainWindow):
                         self.Routine_State_CheckBox.setEnabled(False)
 
             routine.data = json.dumps(self.sceneHandler.convert_to_json(save_node_iteration))
+            # evaluate active after evaluate missed iterations (so unchecking active an active routine won't affect missed iterations)
             routine.active_state = 1 if self.Routine_State_CheckBox.checkState() == QtCore.Qt.CheckState.Checked else 0
             self.Update_Signal.emit(routine)
             self.close()

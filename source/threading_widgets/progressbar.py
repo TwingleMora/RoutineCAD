@@ -51,6 +51,9 @@ class ProgressWidget(QtWidgets.QWidget):
             CONFIG.calculated_time(self.routine.weight))
 
         self.display_weight.setText(weight_str)
+        exp_str = "%.2f" % self.routine.EXP
+        self.display_EXP.setText(exp_str)
+        self.updateMissedIteration()
 
     def delete_btn_func(self):
         # for( self.threads.clear())
@@ -122,6 +125,16 @@ class ProgressWidget(QtWidgets.QWidget):
             painter.fillRect(event.rect(), self.node_color.lighter())
         else:
             painter.fillRect(event.rect(), self.node_color)
+
+    def updateMissedIteration(self):
+        missed_iter_num = CONFIG.calculate_missed_iteration(self.routine)
+        if missed_iter_num == 0:
+            str_iterations_missed = "0"
+            self.display_iterations_missed.setStyleSheet("color: green;")
+        else:
+            str_iterations_missed = "-" + str(CONFIG.calculate_missed_iteration(self.routine))
+            self.display_iterations_missed.setStyleSheet("color: red;")
+        self.display_iterations_missed.setText(str_iterations_missed)
 
     def __init__(self, routine, parentItem: QtWidgets.QListWidgetItem):
         super(ProgressWidget, self).__init__()
@@ -213,9 +226,18 @@ class ProgressWidget(QtWidgets.QWidget):
 
         label_weight = QtWidgets.QLabel("Weight:")
         label_weight.setFont(font)
-        weight_str = str(self.routine.weight) + ", Every " + CONFIG.ConvertDeltaToRemainingTimeStr(CONFIG.calculated_time(self.routine.weight))
+        weight_str = str(self.routine.weight) + ", Every " + CONFIG.ConvertDeltaToRemainingTimeStr(
+            CONFIG.calculated_time(self.routine.weight))
         self.display_weight = QtWidgets.QLabel(weight_str)
         self.display_weight.setFont(font)
+
+        label_iterations_missed = QtWidgets.QLabel("Missed Iterations:")
+        label_iterations_missed.setFont(font)
+        self.display_iterations_missed = QtWidgets.QLabel()
+
+        self.updateMissedIteration()
+
+        self.display_iterations_missed.setFont(font)
 
         label_iterations = QtWidgets.QLabel("Iterations:")
         label_iterations.setFont(font)
@@ -229,6 +251,11 @@ class ProgressWidget(QtWidgets.QWidget):
         self.display_Finished = QtWidgets.QLabel(finished_str)
         self.display_Finished.setFont(font)
 
+        label_EXP = QtWidgets.QLabel("EXP:")
+        label_EXP.setFont(font)
+        self.display_EXP = QtWidgets.QLabel("0")
+        self.display_EXP.setFont(font)
+
         #font
         label_active_state.setFont(font)
         self.display_active_state.setFont(font)
@@ -240,9 +267,15 @@ class ProgressWidget(QtWidgets.QWidget):
         hLayoutX.addWidget(label_iterations, 2, 0, 1, 1)
         hLayoutX.addWidget(self.display_iterations, 2, 1, 1, 1)
 
+        hLayoutX.addWidget(label_EXP, 2, 2, 1, 1)
+        hLayoutX.addWidget(self.display_EXP, 2, 3, 1, 1)
+
         #hLayoutX = QHBoxLayout()
         hLayoutX.addWidget(label_weight, 1, 0, 1, 1)
         hLayoutX.addWidget(self.display_weight, 1, 1, 1, 1)
+
+        hLayoutX.addWidget(label_iterations_missed, 1, 2, 1, 1)
+        hLayoutX.addWidget(self.display_iterations_missed, 1, 3, 1, 1)
 
         #hLayoutX = QHBoxLayout()
         hLayoutX.addWidget(label_Finished, 0, 2, 1, 1)
@@ -297,7 +330,7 @@ class ProgressWidget(QtWidgets.QWidget):
         for worker in self.t.workers:
             worker.Alive = True
 
-    def reset(self, start_time, end_time,active_state=None):
+    def reset(self, start_time, end_time, active_state=None):
         for worker in self.t.workers:
             worker.update(start_time, end_time, active_state)
             worker.Alive = True
@@ -392,7 +425,7 @@ class ProgressWidget(QtWidgets.QWidget):
                 self.reset_all_workers()
 
         elif progress == -1:  #Routine Time Is Up
-
+            self.updateMissedIteration()
             #print(f"routine {self.routine.routine_id} flag -1")
             self.progressBar.setFormat(self.finish_string)
             self.progressBar.setValue(0)
@@ -407,7 +440,8 @@ class ProgressWidget(QtWidgets.QWidget):
                 ################## IMPORTANT ################
                 self.routine.finished = False
                 self.rsql.update_time(self.routine)
-                self.reset(self.routine.start_time, self.routine.end_time,self.rsql.get_active_state(self.routine.routine_id))
+                self.reset(self.routine.start_time, self.routine.end_time,
+                           self.rsql.get_active_state(self.routine.routine_id))
 
             #print("Unfinished Routine's Time Is Up!")
         elif progress == -2:

@@ -6,6 +6,7 @@ from PySide6.QtGui import QIcon
 
 class CONFIG:
     icon_file = "internal_icon.ico"
+
     @staticmethod
     def load_notification_icon():
         icon = QIcon(':/Portfolio_X/Apps/UnderDevelopment/Course/Point1/Point1/app.ico')
@@ -35,9 +36,33 @@ class CONFIG:
     def calculated_time(weight):
         if weight:
             if weight != 0:
-                equation = 96 * (1 / weight)
+                equation = CONFIG.WeightEquation(weight)
                 return datetime.timedelta(hours=equation)
         return datetime.timedelta(seconds=0)
+
+    @staticmethod
+    def calculate_missed_iteration(routine):
+        time_since_end_of_routine: float = 0
+        iteration_duration: float = 1
+        no_of_missed_times = 0
+        if (routine.active_state == 1):
+            time_since_end_of_routine: float = (datetime.datetime.now() - routine.start_time).total_seconds()
+            iteration_duration: float = CONFIG.calculated_time(routine.weight).total_seconds()
+        temp = time_since_end_of_routine // iteration_duration
+        no_of_missed_times: int = 0 if routine.finished == 1 else int(temp)
+        return no_of_missed_times
+
+    @staticmethod
+    def WeightEquation(weight):
+        return 96 * (1 / weight)
+
+    maximum_exp_per_iteration = 5
+
+    @staticmethod
+    def calculate_exp(iterations, weight, timeleft):
+        exponential_iteration = pow(CONFIG.maximum_exp_per_iteration, iterations / 100)
+        exp = ((timeleft.total_seconds() / 3600) / CONFIG.WeightEquation(weight)) * exponential_iteration
+        return exp
 
     ## View ##
     grid_size_course = 600

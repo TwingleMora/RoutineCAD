@@ -6,7 +6,7 @@ import dateutil.parser
 
 
 class RoutineDB(SQL):
-    columns_def = "id INTEGER, name TEXT NOT NULL, data TEXT, active_state INTEGER, start_time TIMESTAMP,end_time TIMESTAMP, iterations INTEGER, weight INTEGER, Finished INTEGER, EXP INTEGER"
+    columns_def =    "id INTEGER, name TEXT NOT NULL, data TEXT, active_state INTEGER, start_time TIMESTAMP,end_time TIMESTAMP, iterations INTEGER, weight INTEGER, Finished INTEGER, EXP REAL"
     columns_insert = "(id , name, data,active_state,start_time,end_time,iterations,weight,Finished,EXP) VALUES (?,?,?,?,?,?,?,?,?,?)"
     columns_update = "name = ?, data = ?, active_state = ?,start_time=?,end_time =?,iterations=?, weight=?, Finished=?, EXP=? WHERE id = ?"
     columns_select = "id , name, data, active_state, start_time , end_time , iterations, weight, Finished, EXP"
@@ -209,5 +209,13 @@ class RoutineDB(SQL):
             f'''SELECT  COUNT(id) FROM {self.table_name} WHERE active_state != 0''').fetchone()
         if last_id[0] is not None:
             return last_id[0]
+        else:
+            return 0
+
+    def get_total_exp(self):
+        self.sqlconnection()
+        rows =self.cursor.execute(f"SELECT EXP FROM {self.table_name}").fetchall()
+        if rows is not None:
+            return sum([float(row[0]) for row in rows])
         else:
             return 0

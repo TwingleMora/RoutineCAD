@@ -34,8 +34,7 @@ from source.database.routine_db import RoutineDB
 class MainMenu(QtWidgets.QWidget):
     NoOfActiveRoutines = 0
     NoOfAllRoutines = 0
-
-
+    TotalEXP = 0
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -117,7 +116,9 @@ class MainMenu(QtWidgets.QWidget):
         self.display_No_Of_Active_Routines = QtWidgets.QLabel()
 
         label_EXP = QtWidgets.QLabel("Exp:")
-        self.display_EXP = QtWidgets.QLabel()
+        self.TotalEXP = self.rsql.get_total_exp()
+        str_exp = "%0.2f" % self.TotalEXP
+        self.display_EXP = QtWidgets.QLabel(str_exp)
 
         # font
         label_No_Of_Active_Routines.setFont(CONFIG.list_font)
@@ -190,13 +191,16 @@ class MainMenu(QtWidgets.QWidget):
         self.update_widgets()
 
     def update_widgets(self, x=0):
-        NoOfActiveRoutines = self.rsql.number_of_active_routines()
-        NoOfAllRoutines = self.rsql.number_of_all_routines()
-        self.NoOfActiveRoutines = NoOfActiveRoutines
-        self.NoOfAllRoutines = NoOfAllRoutines
+        self.NoOfActiveRoutines = self.rsql.number_of_active_routines()
+        self.NoOfAllRoutines = self.rsql.number_of_all_routines()
+        self.TotalEXP = self.rsql.get_total_exp()
+
+        str_exp = "%0.2f" % self.TotalEXP
+        self.display_EXP.setText(str_exp)
 
         self.display_No_Of_All_Routines.setText(str(self.NoOfAllRoutines))
         self.display_No_Of_Active_Routines.setText(str(self.NoOfActiveRoutines))
+        self.display_EXP = QtWidgets.QLabel(str_exp)
 
 
 if __name__ == "__main__":

@@ -30,6 +30,7 @@ class RoutineList(QtWidgets.QListWidget):
         self.setSpacing(10)
         #self.setStyleSheet("background-color: black;")
         #self.setStyleSheet("""foreground-color: rgb(255, 255, 0);""")
+        self.mParent: QtWidgets.QWidget = parent
 
     def create_list(self):
         #records = self.rsql.get_records_as_list()
@@ -69,11 +70,11 @@ class RoutineList(QtWidgets.QListWidget):
         #records = self.rsql.get_routines()
         for i in range(len(dicts)):
             id = int(self.itemWidget(self.item(i)).routine.routine_id)
-
-            self.itemWidget(self.item(i)).special_update(
+            progressBar:ProgressWidget = self.itemWidget(self.item(i))
+            progressBar.special_update(
                 Routine(routine_id=id, routine_name=dicts[id]["name"], active_state=dicts[id]["active_state"],
                         iterations=dicts[id]["iterations"], finished=dicts[id]["finished"], weight=dicts[id]["weight"],
-                        start_time=dicts[id]["start_time"], end_time=dicts[id]["end_time"]))
+                        start_time=dicts[id]["start_time"], end_time=dicts[id]["end_time"],EXP=dicts[id]["EXP"]))
             print("Id: ", id)
 
     def remove_item_from_list(self, parentItem, id):
@@ -120,7 +121,8 @@ class RoutineList(QtWidgets.QListWidget):
         self.rsql.update(routine)
         #self.update_list()
         self.update_list()
-        self.UpdateMainRoutineListSignal.emit(1)
+        self.mParent.update_widgets()
+        #self.UpdateMainRoutineListSignal.emit(-1)
 
     def mousePressEvent(self, event):
         item = self.itemAt(event.pos())

@@ -10,6 +10,7 @@ class Routine:
     data: str = None
     active_state: int = 1  ##[]##
     iterations: int = 0  ##[]##
+    EXP:float =0
 
     def __init__(self, routine_id=None, routine_name=None, start_time: datetime = None, end_time: datetime = None,
                  data=None, active_state=None, iterations=0, weight=1, finished=False, EXP=0):

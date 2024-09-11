@@ -80,12 +80,12 @@ class Custom_Node(Node):
         self.scaler_label.setFont(font1)
         self.progress_bar = QtWidgets.QProgressBar()
         hBoxLayout = QtWidgets.QGridLayout()
-        self.label_current_iteration = QtWidgets.QLabel(str(self.current_iteration))
+        self.label_current_iteration = QtWidgets.QLabel(str(int(self.current_iteration)))
         self.label_current_iteration.setAlignment(QtCore.Qt.AlignCenter)
 
         seperation = QtWidgets.QLabel("/")
         seperation.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_target_iteration = QtWidgets.QLabel(str(self.target_iteration))
+        self.label_target_iteration = QtWidgets.QLabel(str(int(self.target_iteration)))
         self.label_target_iteration.setAlignment(QtCore.Qt.AlignCenter)
 
         self.finished = QtWidgets.QCheckBox("Finished")

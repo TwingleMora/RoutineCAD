@@ -15,6 +15,7 @@ import logging
 from pathlib import Path
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QGridLayout
 from source.RoutineEditor import RoutineEditor
 from source.RoutineEditor import NodeEditorMode
@@ -24,14 +25,18 @@ from source.routine import Routine
 from source.routine_list import RoutineList
 
 import icons
+
 logging.basicConfig(level=logging.DEBUG)
 
 from source.database.routine_db import RoutineDB
 
 
 class MainMenu(QtWidgets.QWidget):
-    NoOfActiveRoutines=0
-    NoOfAllRoutines=0
+    NoOfActiveRoutines = 0
+    NoOfAllRoutines = 0
+
+
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.conn = None
@@ -39,6 +44,9 @@ class MainMenu(QtWidgets.QWidget):
         self.setMinimumSize(QtCore.QSize(600, 400))
         self.launcher = None
         self.setWindowTitle("RoutineCAD")
+
+        CONFIG.load_notification_icon()
+
         self.rsql = RoutineDB()
         ###################################
         ############ WIDGETS ##############
@@ -49,8 +57,8 @@ class MainMenu(QtWidgets.QWidget):
         ###########  MAIN LIST ##############
         #####################################
 
- #       self.routine_list.setSpacing(10)
-#        self.routine_list.autoFillBackground(True)
+        #       self.routine_list.setSpacing(10)
+        #        self.routine_list.autoFillBackground(True)
         btn_add_routine = QPushButton("Add Routine")
         btn_cancel = QPushButton("Cancel")
 
@@ -90,18 +98,14 @@ class MainMenu(QtWidgets.QWidget):
         # datetime is object
         # current = datetime.now()
 
-
         # for i in range(3):
         #     final = current + timedelta(seconds=4)
         #     routine = Routine(routine_id=i, routine_name="name" + str(i), data=json.dumps(self.json_datas[i]),
         #                       active_state=True,start_time=current,end_time=final,iterations=0,weight=1)
         #     self.rsql.insert(routine)
 
-
         top_layout = QGridLayout()
         #top_layout.setC.setColumnCount(3)  # Set the number of columns to 3
-
-
 
         self.routine_list.create_list()
         self.routine_list.update_list()
@@ -142,7 +146,6 @@ class MainMenu(QtWidgets.QWidget):
         label_HR.setFont(CONFIG.list_font)
         self.display_HR.setFont(CONFIG.list_font)
 
-
         NoOfActiveRoutines = self.rsql.number_of_active_routines()
         NoOfAllRoutines = self.rsql.number_of_all_routines()
         self.NoOfActiveRoutines = NoOfActiveRoutines
@@ -150,7 +153,6 @@ class MainMenu(QtWidgets.QWidget):
 
         self.display_No_Of_All_Routines.setText(str(self.NoOfAllRoutines))
         self.display_No_Of_Active_Routines.setText(str(self.NoOfActiveRoutines))
-
 
         RIGHT_LAYOUT1.addWidget(label_No_Of_All_Routines)
         RIGHT_LAYOUT1.addWidget(self.display_No_Of_All_Routines)
@@ -161,10 +163,6 @@ class MainMenu(QtWidgets.QWidget):
         top_layout.addLayout(LEFT_LAYOUT1, 0, 0)
         top_layout.addLayout(LEFT_LAYOUT2, 1, 0)
         top_layout.addLayout(RIGHT_LAYOUT1, 0, 2)
-
-
-
-
 
         ###########################################################
         btn_add_routine.clicked.connect(self.add_routine_clicked)
@@ -179,17 +177,19 @@ class MainMenu(QtWidgets.QWidget):
 
     def add_routine_clicked(self):
         new_id = self.rsql.calculate_new_routine_id()
-        self.launcher = RoutineEditor(routine=Routine(routine_id=new_id,iterations=0,weight=1,start_time=datetime.now(),end_time=datetime.now()), EditorMode=NodeEditorMode.New)
+        self.launcher = RoutineEditor(
+            routine=Routine(routine_id=new_id, iterations=0, weight=1, start_time=datetime.now(),
+                            end_time=datetime.now()), EditorMode=NodeEditorMode.New)
         self.launcher.show()
         self.launcher.New_Signal.connect(self.NewRoutineClicked)
-#        self.launcher.UpdateMainRoutineListSignal.connect(self.update_widgets)
 
+    #        self.launcher.UpdateMainRoutineListSignal.connect(self.update_widgets)
 
     def NewRoutineClicked(self, routine):
         self.routine_list.add_item_to_list(routine)
         self.update_widgets()
 
-    def update_widgets(self,x=0):
+    def update_widgets(self, x=0):
         NoOfActiveRoutines = self.rsql.number_of_active_routines()
         NoOfAllRoutines = self.rsql.number_of_all_routines()
         self.NoOfActiveRoutines = NoOfActiveRoutines

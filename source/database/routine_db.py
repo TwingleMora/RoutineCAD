@@ -171,6 +171,14 @@ class RoutineDB(SQL):
         else:
             return 0
 
+    def get_start_time(self, routine_id):
+        self.sqlconnection()
+        row = self.cursor.execute(f'''SELECT start_time FROM {self.table_name} WHERE id = {routine_id}''').fetchone()
+        if row[0] is not None:
+            return dateutil.parser.parse(row[0])
+        else:
+            return None
+
     def get_end_time(self, routine_id):
         self.sqlconnection()
         row = self.cursor.execute(f'''SELECT end_time FROM {self.table_name} WHERE id = {routine_id}''').fetchone()

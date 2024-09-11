@@ -7,12 +7,13 @@ from source.routine import Routine
 from source.threading_widgets.progressbar import ProgressWidget
 from source.RoutineEditor import RoutineEditor
 
+
 class RoutineList(QtWidgets.QListWidget):
     #########################################
     ########### MAIN MENU SIGNALS ###########
     ###########                   ###########
     #########################################
-################# FOR EXAMPLE IF USER REMOVED A ROUTINE ##############
+    ################# FOR EXAMPLE IF USER REMOVED A ROUTINE ##############
     UpdateMainRoutineListSignal = QtCore.Signal(object)
     ################ TO UPDATE NO OF ACTIVE ROUTINES ################
 
@@ -22,13 +23,13 @@ class RoutineList(QtWidgets.QListWidget):
     #################################
     openRoutine = QtCore.Signal(object)
     qListWidgetItem = None
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.rsql = RoutineDB()
         self.setSpacing(10)
         #self.setStyleSheet("background-color: black;")
         #self.setStyleSheet("""foreground-color: rgb(255, 255, 0);""")
-
 
     def create_list(self):
         #records = self.rsql.get_records_as_list()
@@ -51,6 +52,7 @@ class RoutineList(QtWidgets.QListWidget):
 
             self.addItem(item)
             self.setItemWidget(item, routine_item)
+
     def add_item_to_list(self, routine):
         self.rsql.insert(routine)
         # I may remove the text in the future
@@ -61,6 +63,7 @@ class RoutineList(QtWidgets.QListWidget):
         item.progressWidget = routine_item
         self.addItem(item)
         self.setItemWidget(item, routine_item)
+
     def update_list(self):
         dicts = self.rsql.get_records_as_dicts()
         #records = self.rsql.get_routines()
@@ -68,10 +71,12 @@ class RoutineList(QtWidgets.QListWidget):
             id = int(self.itemWidget(self.item(i)).routine.routine_id)
 
             self.itemWidget(self.item(i)).special_update(
-                Routine(routine_id=id, routine_name=dicts[id]["name"], active_state=dicts[id]["active_state"], iterations=dicts[id]["iterations"],finished=dicts[id]["finished"],weight=dicts[id]["weight"],start_time=dicts[id]["start_time"],end_time=dicts[id]["end_time"]))
+                Routine(routine_id=id, routine_name=dicts[id]["name"], active_state=dicts[id]["active_state"],
+                        iterations=dicts[id]["iterations"], finished=dicts[id]["finished"], weight=dicts[id]["weight"],
+                        start_time=dicts[id]["start_time"], end_time=dicts[id]["end_time"]))
             print("Id: ", id)
 
-    def remove_item_from_list(self, parentItem,id):
+    def remove_item_from_list(self, parentItem, id):
         self.removeItemWidget(parentItem)
         self.takeItem(self.row(parentItem))
         self.rsql.delete_record_by_id(id)
@@ -96,7 +101,7 @@ class RoutineList(QtWidgets.QListWidget):
         db_routine = self.rsql.get_routine_by_id(routine_id)
         json_s = db_routine.data
         json_f = json.loads(json_s)
-                    ############################
+        ############################
         ##########################################################
         #2# routine.start_time = db_routine.start_time
         #2# routine.end_time = db_routine.end_time
@@ -109,6 +114,7 @@ class RoutineList(QtWidgets.QListWidget):
         self.launcher.show()
 
         self.launcher.Update_Signal.connect(self.UpdateRoutineClicked)
+
     def UpdateRoutineClicked(self, routine):
         #self.update_in_table(self.table_name, routine.routine_id, routine.routine_name, routine.data,routine.active_state)
         self.rsql.update(routine)
@@ -116,11 +122,9 @@ class RoutineList(QtWidgets.QListWidget):
         self.update_list()
         self.UpdateMainRoutineListSignal.emit(1)
 
-
-
     def mousePressEvent(self, event):
         item = self.itemAt(event.pos())
-        if(event.button()== QtCore.Qt.LeftButton):
+        if (event.button() == QtCore.Qt.LeftButton):
             if item:
                 #1#self.openRoutine.emit(item.modulex)
                 #2#self.OpenRoutineEditor(item.modulex)

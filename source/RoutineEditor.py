@@ -404,7 +404,7 @@ class RoutineEditor(QtWidgets.QMainWindow):
 
         if self.editorMode == NodeEditorMode.Edit:
             routine.routine_name = self.Routine_Name_Edit.text()
-            save_node_iteration = False
+            save_node_iteration = True # always save node iteration
             #routine.finished = self.routine.finished
             if self.MissedMadeBtn.isVisible():
                 self.routine.finished = True

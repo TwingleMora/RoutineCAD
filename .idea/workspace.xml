@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20c150de-99db-4871-adde-81c275612b11" name="Changes" comment="first commit" />
+    <list default="true" id="20c150de-99db-4871-adde-81c275612b11" name="Changes" comment="first commit">
+      <change afterPath="$PROJECT_DIR$/internal_icon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/threading_widgets/notification_worker.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/threading_widgets/notifierThread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/RDB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/NodeEditorWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/NodeEditorWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/RoutineEditor.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/RoutineEditor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/custom_nodes/Custom_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/custom_nodes/Custom_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/database/routine_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/database/routine_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/node_editor/gui/node_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/node_editor/gui/node_widget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/routine_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/routine_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/threading_widgets/progressbar.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/threading_widgets/progressbar.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,18 +35,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "TwingleMora"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TwingleMora&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/TwingleMora/RoutineCAD.git",
-    "accountId": "297ae507-9ac0-4322-b76c-a127c28ccb34"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TwingleMora/RoutineCAD.git&quot;,
+    &quot;accountId&quot;: &quot;297ae507-9ac0-4322-b76c-a127c28ccb34&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/.venv/Lib/site-packages/PySide6/QtWidgets.pyi" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -50,28 +65,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main (1).executor": "Run",
-    "Python.main (2).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.main3.executor": "Run",
-    "Python.main4.executor": "Run",
-    "Python.main5.executor": "Run",
-    "Python.main6.executor": "Run",
-    "Python.mainwindow.executor": "Run",
-    "Python.oop_test.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.codeium.enabled": "true",
-    "com.codeium.snoozedEndTime": "0",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/Portfolio_X/Apps/UnderDevelopment/git",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (2).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main4.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main5.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main6.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mainwindow.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oop_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;com.codeium.snoozedEndTime&quot;: &quot;0&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Portfolio_X/Apps/UnderDevelopment/git&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
-}]]></component>
+}</component>
   <component name="QodanaHighlightedReportService">
     <option name="localRunNotPublishedPersistedInfo">
       <LocalReportPersistedInfo>
@@ -295,16 +310,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/routine_list.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="348" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/threading_widgets/progressbar.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="351" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/source/custom_widgets/TripleButtonX.py</url>
           <line>52</line>

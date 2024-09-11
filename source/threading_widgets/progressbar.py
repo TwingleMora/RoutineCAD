@@ -8,6 +8,7 @@ from source.config import CONFIG
 from source.database.routine_db import RoutineDB
 
 from source.threading_widgets.threadx import Threadx
+from source.threading_widgets.notifierThread import NotifierThread
 
 
 class ProgressWidget(QtWidgets.QWidget):
@@ -55,13 +56,17 @@ class ProgressWidget(QtWidgets.QWidget):
         # for( self.threads.clear())
 
         if not CONFIG.debug_mode:
+            self.notify.worker.break_loop = True
+            self.notify.thread.terminate()
+            #del self.notify.thread
+
             for y in self.t.workers:
                 y.break_loop = True
             for x in self.t.threads:
                 #x.quit
                 x.terminate()
                 #x.deleteLater()
-                del x
+                del x  # I don't know whether to keep it or not
             self.t.workers.clear()
             self.deleteLater()
             #self.threads.clear()
@@ -229,19 +234,19 @@ class ProgressWidget(QtWidgets.QWidget):
         self.display_active_state.setFont(font)
         hLayoutX = QGridLayout()
         #layout4 widgets
-        hLayoutX.addWidget(label_active_state,0, 0, 1, 1)
-        hLayoutX.addWidget(self.display_active_state,0,1,1,1)
+        hLayoutX.addWidget(label_active_state, 0, 0, 1, 1)
+        hLayoutX.addWidget(self.display_active_state, 0, 1, 1, 1)
 
         hLayoutX.addWidget(label_iterations, 2, 0, 1, 1)
-        hLayoutX.addWidget(self.display_iterations,2,1,1,1)
+        hLayoutX.addWidget(self.display_iterations, 2, 1, 1, 1)
 
         #hLayoutX = QHBoxLayout()
-        hLayoutX.addWidget(label_weight,1,0,1,1)
-        hLayoutX.addWidget(self.display_weight,1,1,1,1)
+        hLayoutX.addWidget(label_weight, 1, 0, 1, 1)
+        hLayoutX.addWidget(self.display_weight, 1, 1, 1, 1)
 
         #hLayoutX = QHBoxLayout()
-        hLayoutX.addWidget(label_Finished,0,2,1,1)
-        hLayoutX.addWidget(self.display_Finished,0,3,1,1)
+        hLayoutX.addWidget(label_Finished, 0, 2, 1, 1)
+        hLayoutX.addWidget(self.display_Finished, 0, 3, 1, 1)
         ############################################################################
         # "self.layout" layout
         self.layout.addLayout(hLayout1)
@@ -256,6 +261,7 @@ class ProgressWidget(QtWidgets.QWidget):
         self.setLayout(self.layout)
 
         self.t = Threadx(self.routine, self.handleProgress)
+        self.notify = NotifierThread(routine=self.routine)
         #self.setupWorkers()
         #self.runThreads()
 
@@ -297,7 +303,7 @@ class ProgressWidget(QtWidgets.QWidget):
             worker.Alive = True
         self.progressBar.setValue(self.progressBar.maximum())
         self.progressBar.setFormat("")
-        print(f"routine {self.routine.routine_id} was upadted with weight of {self.routine.weight}")
+        print(f"routine {self.routine.routine_id} was updated with weight of {self.routine.weight}")
         # self.routine.start_time = start_time
         # self.routine.end_time = end_time
         # start = self.routine.start_time
@@ -330,11 +336,14 @@ class ProgressWidget(QtWidgets.QWidget):
         # self.Time_End_Display.setText(end.strftime(CONFIG.dt_format))
         self.routine.start_time = current
         self.routine.end_time = end
+
     def reset_all_workers(self):
         for worker in self.t.workers:
             worker.end_time = datetime.now()
+
     Finished = False
     fixX = False
+
     def handleProgress(self, signal):
         #(,,signal)
         index, progress = signal  #tuple
@@ -368,7 +377,7 @@ class ProgressWidget(QtWidgets.QWidget):
             else:
                 #self.changeToRed()
                 #self.changeToBlue()
-                value = self.progressBar.maximum()-value
+                value = self.progressBar.maximum() - value
                 #print(f"routine {self.routine.routine_id} in progress after reset and routine is finished ")
                 self.progressBar.setStyleSheet(
                     "QProgressBar { border: 2px solid #000; border-radius: 5px; } QProgressBar::chunk { background-color: #2e56ab; }")

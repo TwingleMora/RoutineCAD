@@ -63,10 +63,10 @@ class NodeWidget(QtWidgets.QWidget):
         self.node_editor = NodeEditor(self)
         self.node_editor.install(self.scene)
         self.view.scale(CONFIG.intial_scale_factor, CONFIG.intial_scale_factor)
-        #self.view.horizontalScrollBar().setMaximum(99999)
-        #self.view.verticalScrollBar().setMaximum(99999)
-        #self.view.horizontalScrollBar().setValue(5593)
-        #self.view.verticalScrollBar().setValue(5786)
+        self.view.horizontalScrollBar().setMaximum(99999)
+        self.view.verticalScrollBar().setMaximum(99999)
+        self.view.horizontalScrollBar().setValue(5593)
+        self.view.verticalScrollBar().setValue(5786)
         #H: 5844
         #V: 5504
         #self.view.scale(0.25,0.25)

@@ -297,9 +297,9 @@ class ProgressWidget(QtWidgets.QWidget):
         for worker in self.t.workers:
             worker.Alive = True
 
-    def reset(self, start_time, end_time):
+    def reset(self, start_time, end_time,active_state=None):
         for worker in self.t.workers:
-            worker.update(start_time, end_time)
+            worker.update(start_time, end_time, active_state)
             worker.Alive = True
         self.progressBar.setValue(self.progressBar.maximum())
         self.progressBar.setFormat("")
@@ -407,7 +407,7 @@ class ProgressWidget(QtWidgets.QWidget):
                 ################## IMPORTANT ################
                 self.routine.finished = False
                 self.rsql.update_time(self.routine)
-                self.reset(self.routine.start_time, self.routine.end_time)
+                self.reset(self.routine.start_time, self.routine.end_time,self.rsql.get_active_state(self.routine.routine_id))
 
             #print("Unfinished Routine's Time Is Up!")
         elif progress == -2:

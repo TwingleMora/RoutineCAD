@@ -70,20 +70,23 @@ class NotificationWorker(QtCore.QObject):
         while (True):
             if self.break_loop:
                 break
+            self.routine.active_state = self.rsql.get_active_state(self.routine.routine_id)
+
             if self.fetchingTimer > 5:
                 self.routine.finished = self.rsql.get_finished_state(self.routine.routine_id)
-                self.routine.active_state = self.rsql.get_active_state(self.routine.routine_id)
                 self.start_time = self.rsql.get_start_time(self.routine.routine_id)
                 self.end_time = self.rsql.get_end_time(self.routine.routine_id)
-                if not self.routine.active_state:
-                    self.Alive = False
-                else:
-                    self.Alive = True
                 self.fetchingTimer = 0
             self.fetchingTimer += 1
             print("in worker loop")
             if self.break_loop:
                 break
+
+            if self.routine.active_state:
+                self.Alive = True
+                print(f"routine {self.routine.routine_name} is activee agaaain")
+
+
 
             if datetime.now() > self.end_time:
                 self.Alive = False
@@ -93,6 +96,15 @@ class NotificationWorker(QtCore.QObject):
                 self.break_notification = False
             else:
                 self.Alive = True
+                print("data now is less than data end")
+
+            if self.break_loop:
+                break
+
+            if not self.routine.active_state:
+                self.Alive = False
+                print(f"routine {self.routine.routine_name} is noooot activee")
+
 
             if self.break_loop:
                 break

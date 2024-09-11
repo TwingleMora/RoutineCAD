@@ -34,10 +34,12 @@ class ProgressWorker(QtCore.QObject):
         self.progress = 0
         self.blue = False
 
-    def update(self, start_time, end_time):
+    def update(self, start_time, end_time,active_state=None):
         self.progress = 0
         self.end_time = end_time
         self.start_time = start_time
+        if active_state is not None:
+            self.routine.active_state = active_state
         #print(f"routine {self.routine.routine_id} was upadted in worker")
         #self.routine.finished = False
 
@@ -64,17 +66,21 @@ class ProgressWorker(QtCore.QObject):
             if self.fetchingTimer > 5:
                 #self.routine.finished = self.rsql.get_finished_state(self.routine.routine_id)
                 self.routine.active_state = self.rsql.get_active_state(self.routine.routine_id)
-
-                # if self.routine.finished:
-                #     self.updateProgress.emit((self.id, -2))
-                if not self.routine.active_state:
-                    #self.updateProgress.emit((self.id, -3))
-                    self.Alive = False
-                    #print("This is Weirdddd")
-                else:
-                    self.Alive = True
+                # if not self.routine.active_state:
+                #     #self.updateProgress.emit((self.id, -3))
+                #     self.Alive = False
+                #     #print("This is Weirdddd")
+                # else:
+                #     self.Alive = True
                 self.fetchingTimer = 0
             self.fetchingTimer += 1
+
+            if not self.routine.active_state:
+                # self.updateProgress.emit((self.id, -3))
+                self.Alive = False
+                # print("This is Weirdddd")
+            else:
+                self.Alive = True
 
             if self.break_loop:
                 break

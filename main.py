@@ -202,7 +202,7 @@ class MainMenu(QtWidgets.QWidget):
         self.display_No_Of_Active_Routines.setText(str(self.NoOfActiveRoutines))
         self.display_EXP = QtWidgets.QLabel(str_exp)
 
-
+#adawd
 if __name__ == "__main__":
     import sys
     import qdarktheme
